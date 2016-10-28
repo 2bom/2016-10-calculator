@@ -1,0 +1,29 @@
+body *{
+    font-family: 'Cabin', sans-serif;
+    font-size: 35px;
+}
+
+.container {
+    width: 400px;
+    height: 500px;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: aquamarine;
+}
+.row {
+    width: 400px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.container>#window {
+    flex: 1;
+    text-align: right;
+    background-color: white;
+}
+button {
+    flex: 1;
+    border: 1px solid brown;
+    background-color: bisque;
+}
