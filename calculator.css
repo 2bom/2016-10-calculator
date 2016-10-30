@@ -17,10 +17,14 @@ body *{
     display: flex;
     flex-wrap: wrap;
 }
-.container>#window {
+#window {
+    display: flex;
     flex: 1;
-    text-align: right;
+    height:60px;
+    align-items: center;
+    justify-content: flex-end;
     background-color: white;
+    padding-right: 10px;
 }
 button {
     flex: 1;

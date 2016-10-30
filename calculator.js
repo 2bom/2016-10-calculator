@@ -4,7 +4,9 @@
 var result = '';
 
 var calculate = function () {
-	var buttons = document.getElementsByTagName('button');
+    var buttons = document.getElementsByTagName("button");
+    
+    var window = document.getElementById("result");
 	var num = '';
 	var operator;
 
@@ -14,7 +16,9 @@ var calculate = function () {
 
 			var val = this.innerHTML;
 			if ((/\d/).test(val)) {
-				num += val;
+                console.log(num.constructor);
+                console.log(val.constructor);
+                num = (num === '0' ? val : num + val);
 				result = num;
 				console.log('num : ' + num);
 			} else if (val === '.') {
@@ -22,11 +26,14 @@ var calculate = function () {
 					num += val;
 					result = num;
 				}
-				console.log('. : ' + val);
+				console.log('. : ' + num);
 			} else if (val === 'c') {
 				num = num.slice(0, num.length - 1);
+                if(num === ''){
+                    num = '0';
+                }
 				result = num;
-				console.log('c : ' + val);
+				console.log(num.constructor);
 			} else if (val === '=') {
 				console.log('= : ' + num);
 			} else {
@@ -40,6 +47,12 @@ var calculate = function () {
 					console.log(val);
 				}
 			}
+            
+            window.innerHTML = num;
+            
+            console.log(window.innerHTML);
+            console.log(num);
+            
 
 		}
 
