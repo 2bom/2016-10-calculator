@@ -69,13 +69,15 @@ var calculate = function () {
 			var val = this.innerHTML;
 
 			if ((/\d/).test(val)) {
-				console.log(num);
-
+				if (operator === '='){
+					num = '0';
+					numForOperating = '';
+					operator = '';
+				}
 				num = (num === '0' ? val : num + val);
 
 				resultWindow.innerHTML = num;
 
-				// console.log('num : ' + num);
 			} else if (val === '.') {
 				if (num.indexOf('.') === -1) {
 					num += val;
@@ -90,53 +92,50 @@ var calculate = function () {
 				}
 
 				resultWindow.innerHTML = num;
-			} else if (val !== '=') {
+			} else {
 
 				if (!operator){
-					numForOperating = num;
+					val === '=' ? result = num : numForOperating = num;
 				} else {
-					if (operator === '/'){
-						if (num === '0'){
-							resultWindow.innerHTML = errorMessage;
-						} else {
-							numForOperating = parseFloat(numForOperating) / parseFloat(num);
+					if (num !== ''){
+						if( ((numForOperating).split(/\./g)[1] && (num).split(/\./g)[1]) && !(operator === '/' && num === '0')){
+							var numFOFloatLength = (numForOperating).split(/\./g)[1].length;
+							var numFloatLength = (num).split(/\./g)[1].length;
+							var resultRange;
+
+							resultRange = (numFOFloatLength > numFloatLength ? numFOFloatLength : numFloatLength);
 						}
-					} else if (operator === 'x'){
-						numForOperating = parseFloat(numForOperating) * parseFloat(num);
-					} else if (operator === '-'){
-						numForOperating = parseFloat(numForOperating) - parseFloat(num);
-					} else {
-						numForOperating = parseFloat(numForOperating) + parseFloat(num);
+
+						if (operator === '/'){
+							if (num === '0'){
+								console.log(operator);
+								console.log(num);
+								resultWindow.innerHTML = errorMessage;
+							} else {
+								var operated =( resultRange ? (parseFloat(numForOperating) / parseFloat(num)).toFixed(resultRange) : (parseFloat(numForOperating) / parseFloat(num)));
+								val === '=' ? result = operated : numForOperating = operated;
+							}
+						} else if (operator === 'x'){
+							var operated =( resultRange ? (parseFloat(numForOperating) * parseFloat(num)).toFixed(resultRange) : (parseFloat(numForOperating) * parseFloat(num)));
+							val === '=' ? result = operated : numForOperating = operated;
+						} else if (operator === '-'){
+							var operated =( resultRange ? (parseFloat(numForOperating) - parseFloat(num)).toFixed(resultRange) : (parseFloat(numForOperating) - parseFloat(num)));
+							val === '=' ? result = operated : numForOperating = operated;
+						} else if (operator === '+'){
+							var operated =( resultRange ? (parseFloat(numForOperating) + parseFloat(num)).toFixed(resultRange) : (parseFloat(numForOperating) + parseFloat(num)));
+							val === '=' ? result = operated : numForOperating = operated;
+						} else {
+							numForOperating = result;
+						}
 					}
 				}
 
-				resultWindow.innerHTML = numForOperating;
 				num = '0';
 				operator = val;
 
-			} else {
-				if(operator){
-					if (operator === '/'){
-						if (num === '0'){
-							resultWindow.innerHTML = errorMessage;
-						} else {
-							result = parseFloat(numForOperating) / parseFloat(num);
-						}
-					} else if (operator === 'x'){
-						result = parseFloat(numForOperating) * parseFloat(num);
-					} else if (operator === '-'){
-						result = parseFloat(numForOperating) - parseFloat(num);
-					} else {
-						result = parseFloat(numForOperating) + parseFloat(num);
-					}
-				} else {
-					result = num;
+				if(resultWindow.innerHTML !== errorMessage){
+					resultWindow.innerHTML = (val === '=' ? result : numForOperating);
 				}
-
-				resultWindow.innerHTML = result;
-				numForOperating ='';
-				num = '0';
-				operator = '';
 			}
 
 		}
